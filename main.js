@@ -415,15 +415,27 @@ function tapPower() {
 // =====================================================
 function updateBallColor() {
 
+    console.log("clickCount =", clickCount);
+
     let color;
 
     if (clickCount <= 30) {
-        color = new THREE.Color(0xffee00); // 黄色
-    } else if (clickCount <= 60) {
-        color = new THREE.Color(0xff8c00); // オレンジ
-    } else if (clickCount <= 100) {
-        color = new THREE.Color(0xff2200); // 赤
-   } else {
+        console.log("黄色");
+        color = new THREE.Color(0xffee00);
+    }
+    else if (clickCount <= 60) {
+        console.log("オレンジ");
+        color = new THREE.Color(0xff8c00);
+    }
+    else if (clickCount <= 100) {
+        console.log("赤");
+        color = new THREE.Color(0xff0000);
+    }
+    else {
+        console.log("虹");
+        ...
+    }
+}
         // 虹色：数色をすばやく切り替えてコロコロ変わるように見せる
         const rainbowColors = [
             0xff0000, // 赤
