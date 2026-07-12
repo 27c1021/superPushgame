@@ -415,42 +415,48 @@ function tapPower() {
 // =====================================================
 function updateBallColor() {
 
-    const thresholds = [30, 60, 100];
-    const colors = [
-        0xffee00, // 黄色
-        0xff8c00, // オレンジ
-        0xff0000  // 赤
-    ];
+    const stage = Math.floor(clickCount / 30);
 
     let color;
 
-    let stage = thresholds.findIndex(limit => clickCount <= limit);
+    switch (stage) {
 
-    if (stage === -1) {
+        case 0:
+            // 0～29
+            color = new THREE.Color(0xffee00);
+            break;
 
-        const rainbowColors = [
-            0xff0000,
-            0xff8800,
-            0xffff00,
-            0x00ff66,
-            0x3388ff,
-            0xaa33ff
-        ];
+        case 1:
+            // 30～59
+            color = new THREE.Color(0xff8c00);
+            break;
 
-        const index =
-            Math.floor(performance.now() / 90) % rainbowColors.length;
+        case 2:
+        case 3:
+            // 60～119
+            color = new THREE.Color(0xff0000);
+            break;
 
-        color = new THREE.Color(rainbowColors[index]);
+        default:
+            // 120以上
+            const rainbowColors = [
+                0xff0000,
+                0xff8800,
+                0xffff00,
+                0x00ff66,
+                0x3388ff,
+                0xaa33ff
+            ];
 
-    } else {
+            const index =
+                Math.floor(performance.now() / 90) % rainbowColors.length;
 
-        color = new THREE.Color(colors[stage]);
+            color = new THREE.Color(rainbowColors[index]);
     }
 
     ballMaterial.color.copy(color);
     ballMaterial.emissive.copy(color);
 }
-
 // =====================================================
 // TIME UP
 // =====================================================
