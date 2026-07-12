@@ -415,48 +415,35 @@ function tapPower() {
 // =====================================================
 function updateBallColor() {
 
-    const stage = Math.floor(clickCount / 30);
-
     let color;
 
-    switch (stage) {
+    if (clickCount <= 30) {
+        color = new THREE.Color(0xffee00); // 黄色
+    } else if (clickCount <= 60) {
+        color = new THREE.Color(0xff8c00); // オレンジ
+    } else if (clickCount <= 100) {
+        color = new THREE.Color(0xff2200); // 赤
+   } else {
+        // 虹色：数色をすばやく切り替えてコロコロ変わるように見せる
+        const rainbowColors = [
+            0xff0000, // 赤
+            0xff8800, // オレンジ
+            0xffff00, // 黄
+            0x00ff66, // 緑
+            0x3388ff, // 青
+            0xaa33ff  // 紫
+        ];
 
-        case 0:
-            // 0～29
-            color = new THREE.Color(0xffee00);
-            break;
+        const switchInterval = 90; // ミリ秒ごとに切り替え（数値を小さくするほど速くなる）
+        const index = Math.floor(performance.now() / switchInterval) % rainbowColors.length;
 
-        case 1:
-            // 30～59
-            color = new THREE.Color(0xff8c00);
-            break;
-
-        case 2:
-        case 3:
-            // 60～119
-            color = new THREE.Color(0xff0000);
-            break;
-
-        default:
-            // 120以上
-            const rainbowColors = [
-                0xff0000,
-                0xff8800,
-                0xffff00,
-                0x00ff66,
-                0x3388ff,
-                0xaa33ff
-            ];
-
-            const index =
-                Math.floor(performance.now() / 90) % rainbowColors.length;
-
-            color = new THREE.Color(rainbowColors[index]);
+        color = new THREE.Color(rainbowColors[index]);
     }
 
     ballMaterial.color.copy(color);
     ballMaterial.emissive.copy(color);
 }
+
 // =====================================================
 // TIME UP
 // =====================================================
